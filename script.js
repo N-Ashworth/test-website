@@ -1,5 +1,6 @@
 const creature_button = document.getElementById("add-creature");
 const search_bar = document.getElementById("search")
+const sort_dropdown = document.getElementById("sort-by")
 
 let animals = JSON.parse(localStorage.getItem("creatures"))
 
@@ -42,14 +43,20 @@ function refreshCreatureList() {
         const danger = document.createElement("h4");
         danger.textContent = "Danger: " + animal.danger;
 
+        const UD_box = document.createElement("div");
+
         const del_button = document.createElement("button");
         del_button.textContent = "Delete";
+        const edit_button = document.createElement("button");
+        edit_button.textContent = "Edit";
 
+        UD_box.appendChild(del_button);
+        UD_box.appendChild(edit_button);
         del_button.addEventListener("click", (a) => deleteCreature(animal))
         an_card.appendChild(name);
         an_card.appendChild(habitat);
         an_card.appendChild(danger);
-        an_card.appendChild(del_button);
+        an_card.appendChild(UD_box);
 
         // color code
         if(+animal.danger <= 3) {
@@ -64,18 +71,44 @@ function refreshCreatureList() {
         an_list.appendChild(an_card);
     }
 
-    counter = document.getElementById("creature-counter")
-    article = "s"
+    const counter = document.getElementById("creature-counter");
+    let article = "s";
     if(animals.length == 1) {
         article = ""
     }
-    counter.textContent = `${String(animals.length)} creature${article} added`
+    counter.textContent = `${String(animals.length)} creature${article} added`;
 }
 
 function deleteCreature(animal) {
-    console.log(`Deleting animal (${animal})...`)
-    animals = animals.filter(a => a !== animal)
-    refreshCreatureList()
+    console.log(`Deleting animal (${animal})...`);
+    animals = animals.filter(a => a !== animal);
+    refreshCreatureList();
+}
+
+function alphabeticalCompare(a, b) {
+    // Ensure values are strings and handle null/undefined
+    const strA = (a ?? "").toString();
+    const strB = (b ?? "").toString();
+
+    // localeCompare handles case and special characters properly
+    return strA.localeCompare(strB, undefined, { sensitivity: 'base' });
+}
+
+function sortCreatures() {
+    sort = sort_dropdown.value;
+
+    switch (sort) {
+        case "danger":
+            animals.sort((a, b) => +a.danger - +b.danger);
+            break;
+        case "name":
+            animals.sort((a, b) => alphabeticalCompare(a.name, b.name));
+            break;
+        case "habitat":
+            animals.sort((a, b) => alphabeticalCompare(a.habitat, b.habitat));
+            break;
+    };
+    refreshCreatureList();
 }
 
 function creatureButtonClicked() {
@@ -96,6 +129,7 @@ function creatureButtonClicked() {
 
 creature_button.addEventListener("click", creatureButtonClicked);
 
-refreshCreatureList()
+refreshCreatureList();
 
-search_bar.addEventListener("input", refreshCreatureList)
+search_bar.addEventListener("input", refreshCreatureList);
+sort_dropdown.addEventListener("input", sortCreatures);
