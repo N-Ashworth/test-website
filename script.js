@@ -1,12 +1,35 @@
 const creature_button = document.getElementById("add-creature");
+const search_bar = document.getElementById("search")
 
-let animals = [];
+let animals = JSON.parse(localStorage.getItem("creatures"))
+
+if(!animals) {
+    animals = [
+        {
+            "name": "Sprite",
+            "habitat": "Forest",
+            "danger": "1"
+        },
+        {
+            "name": "Sand Worm",
+            "habitat": "Desert",
+            "danger": "8"
+        }
+    ];
+}
 
 function refreshCreatureList() {
+    const search = search_bar.value;
+
     const an_list = document.getElementById("creature-list");
     an_list.replaceChildren()
-
+    localStorage.setItem("creatures", JSON.stringify(animals))
     for(const animal of animals) {
+        //only show ones that follow the search
+        if(search !== "" && !animal.name.toLowerCase().includes(search.toLowerCase())) {
+            continue;
+        }
+
         const an_card = document.createElement("div");
         an_card.className = "card";
 
@@ -40,6 +63,13 @@ function refreshCreatureList() {
 
         an_list.appendChild(an_card);
     }
+
+    counter = document.getElementById("creature-counter")
+    article = "s"
+    if(animals.length == 1) {
+        article = ""
+    }
+    counter.textContent = `${String(animals.length)} creature${article} added`
 }
 
 function deleteCreature(animal) {
@@ -65,3 +95,7 @@ function creatureButtonClicked() {
 }
 
 creature_button.addEventListener("click", creatureButtonClicked);
+
+refreshCreatureList()
+
+search_bar.addEventListener("input", refreshCreatureList)
