@@ -1,4 +1,29 @@
 body {
-    background: black;
+    background: #001741;
     color: white;
+
+    display: flex;
+    justify-content: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.creature-list {
+  display: flex;      
+  flex-direction: column;
+  gap: 20px;           
+  padding: 20px;
+}
+
+/* 3. Style the actual small boxes */
+.card {
+  width: 200px;                 
+  height: 200px;               
+  background-color: #022668;    
+  border: 2px solid #111111;    
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
 }

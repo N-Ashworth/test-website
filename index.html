@@ -3,14 +3,28 @@
 <head>
     <title>Creature Encyclopedia</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 
 <body>
-    <h1>Create a Creature:</h1>
+    <div>
+        <h1>Create a Creature:</h1>
+        
+        <div>
+            <label for="cr_name">Name:</label>
+            <input type="text" id="cr_name" name="creature-name" placeholder="Sprite"><br>
 
-    <label for="name">Name:</label>
-    <input type="text" name="creature-name" placeholder="Forest Sprite">
+            <label for="cr_habitat">Habitat:</label>
+            <input type="text" id="cr_habitat" name="creature-habitat" placeholder="Forest"><br>
 
-    <button>Click Me</button>
+            <label for="cr_danger">Danger:</label>
+            <input type="number" id="cr_danger" name="creature-danger" min="1" max="10" step="1" /><br><br>
+
+            <button id="add-creature">Add Creature</button>
+        </div>
+
+        <div class="creature-list" id="creature-list">
+        </div>
+    </div>
 </body>
 </html>
