@@ -2,9 +2,13 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return "Hello from Flask!"
+creatures = [
+    {
+        "name": "Sand Worm",
+        "danger": 8
+    }
+]
 
-if __name__ == "__main__":
-    app.run()
+@app.route("/creatures")
+def get_creatures():
+    return creatures
