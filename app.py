@@ -2,7 +2,9 @@ from flask import Flask
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=[
+    "https://n-ashworth.github.io"
+])
 
 creatures = [
     {
