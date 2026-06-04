@@ -2,7 +2,8 @@ const creature_button = document.getElementById("add-creature");
 const search_bar = document.getElementById("search")
 const sort_dropdown = document.getElementById("sort-by")
 
-let animals = JSON.parse(localStorage.getItem("creatures"))
+let animals = [];
+loadCreatures();
 
 let edited = null;
 
@@ -19,6 +20,17 @@ if(!animals) {
             "danger": 8
         }
     ];
+}
+
+async function loadCreatures() {
+    console.log("Loading creatures...")
+    const response = await fetch(
+        "https://creature-encyclopedia.onrender.com/creatures"
+    );
+    console.log("Loaded creatures!")
+    animals = await response.json();
+
+    refreshCreatureList();
 }
 
 function refreshCreatureList() {
